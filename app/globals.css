@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+/* ============================================================
+   MERIDIAN — Design tokens
+   Blueprint / Engineering Precision system
+   ============================================================ */
+@theme {
+  /* Surface + ink */
+  --color-ink: #1a1c1e;
+  --color-ink-soft: #26292c;
+  --color-graphite: #44474b;
+  --color-concrete: #9b9c99;
+  --color-mist: #edebe6;
+  --color-paper: #fbfaf7;
+
+  /* Single accent — surveyor amber */
+  --color-amber: #d85b1c;
+  --color-amber-deep: #b4480f;
+  --color-amber-soft: #f0d9c8;
+
+  /* Hairlines */
+  --color-line: rgba(26, 28, 30, 0.12);
+  --color-line-strong: rgba(26, 28, 30, 0.22);
+  --color-line-light: rgba(251, 250, 247, 0.14);
+  --color-line-light-strong: rgba(251, 250, 247, 0.26);
+
+  /* Type roles (wired to next/font in layout) */
+  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-body: var(--font-hanken), "Hanken Grotesk", system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--color-amber);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  /* Display headings default to the Archivo face */
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+    text-wrap: balance;
+  }
+}
+
+/* ============================================================
+   Signature: drafting / blueprint utilities
+   ============================================================ */
+
+/* Fine engineering grid for light surfaces */
+@utility grid-blueprint {
+  background-image:
+    linear-gradient(to right, var(--color-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Engineering grid for dark surfaces */
+@utility grid-blueprint-dark {
+  background-image:
+    linear-gradient(to right, var(--color-line-light) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-line-light) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Monospace eyebrow / data label */
+@utility data-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Corner registration tick (drafting crop mark) */
+@utility tick-corners {
+  position: relative;
+}
+
+/* Subtle film grain-free paper texture via layered gradients is handled inline. */
+
+/* ============================================================
+   Marquee (certifications strip)
+   ============================================================ */
+@keyframes meridian-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@utility animate-marquee {
+  animation: meridian-marquee 38s linear infinite;
+}
+
+/* Hide scrollbars on filter rails while staying scrollable */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ============================================================
+   Reduced motion — quality floor
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
