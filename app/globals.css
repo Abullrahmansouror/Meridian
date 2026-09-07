@@ -9,13 +9,13 @@
   --color-ink: #1a1c1e;
   --color-ink-soft: #26292c;
   --color-graphite: #44474b;
-  --color-concrete: #9b9c99;
+  --color-concrete: #66686b;
   --color-mist: #edebe6;
   --color-paper: #fbfaf7;
 
   /* Single accent — surveyor amber */
-  --color-amber: #d85b1c;
-  --color-amber-deep: #b4480f;
+  --color-amber: #df6425;
+  --color-amber-deep: #a93d0c;
   --color-amber-soft: #f0d9c8;
 
   /* Hairlines */
@@ -96,9 +96,9 @@
 /* Monospace eyebrow / data label */
 @utility data-label {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
@@ -117,8 +117,55 @@
   to { transform: translateX(-50%); }
 }
 
+@keyframes hero-fade {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-rise {
+  from { transform: translateY(115%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes hero-clip {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0); }
+}
+
+.hero-fade {
+  opacity: 0;
+  animation: hero-fade 800ms var(--ease-out-expo) forwards;
+}
+
+.hero-rise {
+  transform: translateY(115%);
+  animation: hero-rise 950ms var(--ease-out-expo) forwards;
+}
+
+.hero-clip {
+  clip-path: inset(0 0 100% 0);
+  animation: hero-clip 1100ms var(--ease-out-expo) forwards;
+}
+
+.testimonial-enter {
+  animation: hero-fade 500ms var(--ease-out-expo);
+}
+
 @utility animate-marquee {
   animation: meridian-marquee 38s linear infinite;
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance, 24px));
+  transition:
+    opacity 700ms var(--ease-out-expo) var(--reveal-delay, 0s),
+    transform 700ms var(--ease-out-expo) var(--reveal-delay, 0s);
+}
+
+[data-reveal][data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Hide scrollbars on filter rails while staying scrollable */
@@ -143,5 +190,35 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-fade,
+  .hero-rise,
+  .hero-clip,
+  .testimonial-enter {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+}
+
+@media (scripting: none) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-fade,
+  .hero-rise,
+  .hero-clip {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    clip-path: none;
   }
 }

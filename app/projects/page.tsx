@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Projects",
   description:
     "Selected commercial, civil, industrial, and residential projects from Meridian Build Group — towers, plants, distribution centers, and infrastructure across the Mountain West.",
+  alternates: { canonical: "/projects" },
 };
 
 export default function ProjectsPage() {

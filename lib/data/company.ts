@@ -13,6 +13,8 @@ export const company = {
   coordinates: "N 39°44′21″ · W 104°59′25″",
 } as const;
 
+export const yearsInBusiness = new Date().getFullYear() - company.founded;
+
 export const contact = {
   phone: "+1 (303) 555-0142",
   phoneHref: "tel:+13035550142",
@@ -72,7 +74,7 @@ export type Stat = {
 
 export const headlineStats: Stat[] = [
   {
-    value: 27,
+    value: yearsInBusiness,
     suffix: " yrs",
     label: "On the ground",
     detail: "Building continuously since 1998",

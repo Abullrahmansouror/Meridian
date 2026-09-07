@@ -52,7 +52,7 @@ export function CallToAction({
               <div className="lg:col-span-4 lg:text-right">
                 <dl className="flex flex-col gap-5 border-t border-mist/15 pt-6 lg:items-end">
                   <div>
-                    <dt className="data-label text-mist/45">Email</dt>
+                    <dt className="data-label text-mist/60">Email</dt>
                     <dd className="mt-1">
                       <a
                         href={contact.emailHref}
@@ -63,7 +63,7 @@ export function CallToAction({
                     </dd>
                   </div>
                   <div>
-                    <dt className="data-label text-mist/45">Headquarters</dt>
+                    <dt className="data-label text-mist/60">Headquarters</dt>
                     <dd className="mt-1 font-mono text-sm text-amber">
                       {company.coordinates}
                     </dd>

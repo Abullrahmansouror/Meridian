@@ -1,7 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { easeOutExpo, viewportOnce } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -49,25 +45,13 @@ export function DimensionLine({
   return (
     <div className={cn("flex items-center gap-3", className)}>
       <span className={cn("h-2.5 w-px shrink-0", tickColor)} />
-      <motion.span
-        className={cn("h-px flex-1 origin-left", lineColor)}
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={viewportOnce}
-        transition={{ duration: 0.9, ease: easeOutExpo }}
-      />
+      <span className={cn("h-px flex-1", lineColor)} />
       {label && (
         <span className={cn("data-label shrink-0 whitespace-nowrap", textColor)}>
           {label}
         </span>
       )}
-      <motion.span
-        className={cn("h-px flex-1 origin-right", lineColor)}
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={viewportOnce}
-        transition={{ duration: 0.9, ease: easeOutExpo }}
-      />
+      <span className={cn("h-px flex-1", lineColor)} />
       <span className={cn("h-2.5 w-px shrink-0", tickColor)} />
     </div>
   );

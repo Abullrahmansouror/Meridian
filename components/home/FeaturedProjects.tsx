@@ -19,7 +19,7 @@ export function FeaturedProjects() {
           />
           <Reveal delay={0.1}>
             <ButtonLink href="/projects" variant="outline">
-              All 240+ projects
+              View selected projects
             </ButtonLink>
           </Reveal>
         </div>
@@ -27,7 +27,7 @@ export function FeaturedProjects() {
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {featuredProjects.map((project, i) => (
             <Reveal key={project.slug} delay={i * 0.08}>
-              <ProjectCard project={project} priority={i === 0} />
+              <ProjectCard project={project} />
             </Reveal>
           ))}
         </div>

@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { easeOutExpo } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { projects, sectors, type ProjectSector } from "@/lib/data/projects";
 import { ProjectCard } from "@/components/ui/ProjectCard";
@@ -52,31 +50,18 @@ export function ProjectsExplorer() {
               );
             })}
           </div>
-          <span className="data-label text-concrete">
+          <span className="data-label text-concrete" aria-live="polite">
             Showing {String(visible.length).padStart(2, "0")} of{" "}
             {String(projects.length).padStart(2, "0")}
           </span>
         </div>
 
         {/* Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={filter}
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.45, ease: easeOutExpo }}
-            className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {visible.map((project, i) => (
-              <ProjectCard
-                key={project.slug}
-                project={project}
-                priority={i < 3}
-              />
-            ))}
-          </motion.div>
-        </AnimatePresence>
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {visible.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
+          ))}
+        </div>
       </Container>
     </section>
   );

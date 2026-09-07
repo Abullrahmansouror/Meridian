@@ -55,7 +55,7 @@ export function PageHero({
             <dl className="mt-12 grid max-w-3xl grid-cols-2 gap-px border-t border-mist/12 sm:grid-cols-4">
               {stats.map((s) => (
                 <div key={s.label} className="border-t border-amber pt-4">
-                  <dt className="data-label text-mist/50">{s.label}</dt>
+                  <dt className="data-label text-mist/60">{s.label}</dt>
                   <dd className="mt-2 font-display text-2xl font-extrabold lg:text-3xl">
                     {s.value}
                   </dd>

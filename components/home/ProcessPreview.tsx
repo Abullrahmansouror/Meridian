@@ -28,7 +28,7 @@ export function ProcessPreview() {
             <Reveal key={phase.index} delay={(i % 3) * 0.06}>
               <div className="group h-full border-t border-line bg-mist pt-6 transition-colors hover:bg-paper sm:pr-6">
                 <div className="flex items-baseline justify-between">
-                  <span className="font-mono text-sm font-medium text-amber">
+                  <span className="font-mono text-sm font-medium text-amber-deep">
                     {phase.index}
                   </span>
                   <span className="data-label text-concrete">

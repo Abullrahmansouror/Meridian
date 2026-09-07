@@ -8,7 +8,6 @@ import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { CornerTicks } from "@/components/ui/Drafting";
-import { ButtonLink } from "@/components/ui/Button";
 import { CallToAction } from "@/components/ui/CallToAction";
 
 export function generateStaticParams() {
@@ -26,6 +25,7 @@ export async function generateMetadata({
   return {
     title: project.name,
     description: project.summary,
+    alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {
       title: project.name,
       description: project.summary,
@@ -196,7 +196,7 @@ export default async function ProjectDetailPage({
             className="group flex flex-col gap-4 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between"
           >
             <div>
-              <span className="data-label text-amber">Next project</span>
+              <span className="data-label text-amber-deep">Next project</span>
               <h2 className="mt-2 font-display text-3xl font-bold text-ink sm:text-4xl">
                 {next.name}
               </h2>
@@ -204,7 +204,7 @@ export default async function ProjectDetailPage({
                 {next.sector} · {next.location}
               </p>
             </div>
-            <span className="inline-flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-ink transition-colors group-hover:text-amber">
+            <span className="inline-flex items-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-ink transition-colors group-hover:text-amber-deep">
               View project
               <svg width="20" height="10" viewBox="0 0 20 10" fill="none" aria-hidden className="transition-transform duration-300 group-hover:translate-x-1.5">
                 <path d="M0 5h18M14 1l4 4-4 4" stroke="currentColor" strokeWidth="1.4" />

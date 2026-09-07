@@ -1,23 +1,18 @@
 import type { MetadataRoute } from "next";
 import { projects } from "@/lib/data/projects";
-
-const base = "https://meridianbuildgroup.com";
+import { absoluteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-
   const pages = ["", "/about", "/services", "/projects", "/process", "/careers", "/contact"].map(
     (route) => ({
-      url: `${base}${route}`,
-      lastModified: now,
+      url: absoluteUrl(route || "/"),
       changeFrequency: "monthly" as const,
       priority: route === "" ? 1 : 0.7,
     })
   );
 
   const projectPages = projects.map((p) => ({
-    url: `${base}/projects/${p.slug}`,
-    lastModified: now,
+    url: absoluteUrl(`/projects/${p.slug}`),
     changeFrequency: "yearly" as const,
     priority: 0.6,
   }));

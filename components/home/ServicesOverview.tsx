@@ -40,7 +40,7 @@ export function ServicesOverview() {
                     alt={s.name}
                     fill
                     sizes="(max-width: 640px) 100vw, 50vw"
-                    className="object-cover opacity-90 transition-all duration-[1200ms] ease-out group-hover:scale-[1.05] group-hover:opacity-100"
+                    className="object-cover opacity-90 transition-all duration-[1200ms] ease-out group-hover:scale-[1.05] group-hover:opacity-100 group-focus-visible:scale-[1.05] group-focus-visible:opacity-100"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/70 to-transparent" />
                   <CornerTicks className="m-4" color="border-paper/40" />
@@ -53,7 +53,7 @@ export function ServicesOverview() {
                   <h3 className="font-display text-2xl font-bold text-ink sm:text-[1.7rem]">
                     {s.name}
                   </h3>
-                  <p className="mt-1 data-label text-amber">{s.tagline}</p>
+                  <p className="mt-1 data-label text-amber-deep">{s.tagline}</p>
                   <p className="mt-4 text-base leading-relaxed text-graphite">
                     {s.description}
                   </p>
@@ -69,7 +69,7 @@ export function ServicesOverview() {
                     ))}
                   </ul>
 
-                  <span className="mt-7 inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-ink transition-colors group-hover:text-amber">
+                  <span className="mt-7 inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-ink transition-colors group-hover:text-amber-deep">
                     Explore
                     <svg
                       width="16"

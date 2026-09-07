@@ -1,20 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { easeOutExpo } from "@/lib/motion";
 import { testimonials } from "@/lib/data/testimonials";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
 export function Testimonials() {
   const [index, setIndex] = useState(0);
-  const [dir, setDir] = useState(1);
   const count = testimonials.length;
   const active = testimonials[index];
 
   const go = (next: number) => {
-    setDir(next > index || (index === count - 1 && next === 0) ? 1 : -1);
     setIndex((next + count) % count);
   };
 
@@ -50,22 +46,20 @@ export function Testimonials() {
           </div>
 
           <div className="lg:col-span-7 lg:col-start-6">
-            <div className="relative min-h-[20rem] border-t border-amber pt-8">
+            <div
+              className="relative min-h-[20rem] border-t border-amber pt-8"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               <span
                 aria-hidden
                 className="font-display text-7xl font-black leading-none text-amber"
               >
                 &ldquo;
               </span>
-              <AnimatePresence mode="wait" custom={dir}>
-                <motion.blockquote
+                <blockquote
                   key={index}
-                  custom={dir}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.5, ease: easeOutExpo }}
-                  className="mt-2"
+                  className="testimonial-enter mt-2"
                 >
                   <p className="text-balance text-2xl font-medium leading-snug text-ink sm:text-[1.85rem] sm:leading-snug">
                     {active.quote}
@@ -79,11 +73,10 @@ export function Testimonials() {
                       {active.role}, {active.company}
                     </span>
                   </footer>
-                  <span className="mt-3 inline-block data-label text-amber">
+                  <span className="mt-3 inline-block data-label text-amber-deep">
                     Project — {active.project}
                   </span>
-                </motion.blockquote>
-              </AnimatePresence>
+                </blockquote>
             </div>
           </div>
         </div>

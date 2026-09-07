@@ -1,32 +1,31 @@
 import type { Metadata } from "next";
 import { Archivo, Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { company, contact, offices } from "@/lib/data/company";
+import { siteUrl } from "@/lib/site";
 
 const archivo = Archivo({
   subsets: ["latin"],
   variable: "--font-archivo",
-  weight: ["500", "600", "700", "800", "900"],
   display: "swap",
 });
 
 const hanken = Hanken_Grotesk({
   subsets: ["latin"],
   variable: "--font-hanken",
-  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   variable: "--font-plex-mono",
-  weight: ["400", "500", "600"],
+  weight: ["400", "500"],
   display: "swap",
+  preload: false,
 });
-
-const siteUrl = "https://meridianbuildgroup.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -61,6 +60,7 @@ export const metadata: Metadata = {
       "Commercial, civil, and industrial construction. Built to the line, since 1998.",
   },
   robots: { index: true, follow: true },
+  alternates: { canonical: "/" },
 };
 
 const orgSchema = {
@@ -99,9 +99,12 @@ export default function RootLayout({
         <Header />
         <main id="main">{children}</main>
         <Footer />
-        <script
+        <Script
+          id="organization-schema"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(orgSchema).replace(/</g, "\\u003c"),
+          }}
         />
       </body>
     </html>

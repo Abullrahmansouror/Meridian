@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { easeOutExpo } from "@/lib/motion";
 import { Button } from "@/components/ui/Button";
 import { CornerTicks } from "@/components/ui/Drafting";
+import { contact } from "@/lib/data/company";
 
 type Fields = {
   name: string;
@@ -15,6 +14,7 @@ type Fields = {
   service: string;
   budget: string;
   message: string;
+  website: string;
 };
 
 const empty: Fields = {
@@ -25,6 +25,7 @@ const empty: Fields = {
   service: "",
   budget: "",
   message: "",
+  website: "",
 };
 
 const serviceOptions = [
@@ -46,13 +47,21 @@ const budgetOptions = [
 export function QuoteForm() {
   const [fields, setFields] = useState<Fields>(empty);
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
-  const [status, setStatus] = useState<"idle" | "submitting" | "done">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">(
+    "idle"
+  );
+  const successRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (status === "done") successRef.current?.focus();
+  }, [status]);
 
   const set = (key: keyof Fields) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setFields((f) => ({ ...f, [key]: e.target.value }));
     setErrors((prev) => ({ ...prev, [key]: undefined }));
+    setStatus((current) => (current === "error" ? "idle" : current));
   };
 
   const validate = () => {
@@ -67,26 +76,37 @@ export function QuoteForm() {
     return next;
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const found = validate();
     setErrors(found);
     if (Object.keys(found).length > 0) {
-      const first = document.querySelector<HTMLElement>("[aria-invalid='true']");
-      first?.focus();
+      const firstField = Object.keys(found)[0];
+      document.getElementById(firstField)?.focus();
       return;
     }
     setStatus("submitting");
-    // Mocked submission — wire to a real endpoint to capture leads.
-    setTimeout(() => setStatus("done"), 1200);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fields),
+      });
+
+      if (!response.ok) throw new Error("Contact request failed");
+      setStatus("done");
+    } catch {
+      setStatus("error");
+    }
   };
 
   if (status === "done") {
     return (
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: easeOutExpo }}
+      <div
+        ref={successRef}
+        tabIndex={-1}
+        role="status"
         className="relative flex min-h-[28rem] flex-col items-start justify-center border border-line bg-paper p-8 sm:p-12"
       >
         <CornerTicks className="m-3" />
@@ -108,11 +128,11 @@ export function QuoteForm() {
             setFields(empty);
             setStatus("idle");
           }}
-          className="mt-8 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-ink underline decoration-amber decoration-2 underline-offset-4 hover:text-amber"
+          className="mt-8 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-ink underline decoration-amber decoration-2 underline-offset-4 hover:text-amber-deep"
         >
           Submit another brief
         </button>
-      </motion.div>
+      </div>
     );
   }
 
@@ -120,6 +140,7 @@ export function QuoteForm() {
     <form
       onSubmit={onSubmit}
       noValidate
+      aria-busy={status === "submitting"}
       className="relative border border-line bg-paper p-6 sm:p-8 lg:p-10"
     >
       <CornerTicks className="m-3" />
@@ -127,7 +148,9 @@ export function QuoteForm() {
         <Field label="Full name" required error={errors.name} htmlFor="name">
           <input
             id="name"
+            name="name"
             type="text"
+            required
             autoComplete="name"
             value={fields.name}
             onChange={set("name")}
@@ -140,7 +163,9 @@ export function QuoteForm() {
         <Field label="Work email" required error={errors.email} htmlFor="email">
           <input
             id="email"
+            name="email"
             type="email"
+            required
             autoComplete="email"
             value={fields.email}
             onChange={set("email")}
@@ -153,6 +178,7 @@ export function QuoteForm() {
         <Field label="Company" htmlFor="company">
           <input
             id="company"
+            name="company"
             type="text"
             autoComplete="organization"
             value={fields.company}
@@ -164,6 +190,7 @@ export function QuoteForm() {
         <Field label="Phone" htmlFor="phone">
           <input
             id="phone"
+            name="phone"
             type="tel"
             autoComplete="tel"
             value={fields.phone}
@@ -175,11 +202,13 @@ export function QuoteForm() {
         <Field label="Project type" required error={errors.service} htmlFor="service">
           <select
             id="service"
+            name="service"
             value={fields.service}
             onChange={set("service")}
             aria-invalid={!!errors.service}
             aria-describedby={errors.service ? "service-error" : undefined}
-            className={cn(inputCls(!!errors.service), "appearance-none bg-[length:0]")}
+            required
+            className={inputCls(!!errors.service)}
           >
             <option value="" disabled>
               Select one…
@@ -195,9 +224,10 @@ export function QuoteForm() {
         <Field label="Estimated budget" htmlFor="budget">
           <select
             id="budget"
+            name="budget"
             value={fields.budget}
             onChange={set("budget")}
-            className={cn(inputCls(false), "appearance-none")}
+            className={inputCls(false)}
           >
             <option value="" disabled>
               Select a range…
@@ -220,7 +250,9 @@ export function QuoteForm() {
         >
           <textarea
             id="message"
+            name="message"
             rows={5}
+            required
             value={fields.message}
             onChange={set("message")}
             placeholder="Scope, location, target dates, and anything that makes it tricky."
@@ -231,6 +263,35 @@ export function QuoteForm() {
         </Field>
       </div>
 
+      <div className="absolute -left-[9999px]" aria-hidden="true">
+        <label htmlFor="website">Leave this field empty</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={fields.website}
+          onChange={set("website")}
+        />
+      </div>
+
+      {status === "error" && (
+        <p
+          role="alert"
+          className="mt-6 border-l-2 border-amber bg-amber-soft/50 px-4 py-3 text-sm leading-relaxed text-ink"
+        >
+          We could not send your brief. Please try again or email{" "}
+          <a
+            href={contact.emailHref}
+            className="font-medium underline decoration-amber decoration-2 underline-offset-4"
+          >
+            {contact.email}
+          </a>
+          .
+        </p>
+      )}
+
       <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="data-label text-concrete">
           Typical reply — 1 business day
@@ -240,6 +301,7 @@ export function QuoteForm() {
           variant="primary"
           arrow
           disabled={status === "submitting"}
+          aria-live="polite"
           className="w-full sm:w-auto"
         >
           {status === "submitting" ? "Sending…" : "Send project brief"}
@@ -277,23 +339,18 @@ function Field({
         className="data-label mb-2 flex items-center gap-1.5 text-graphite"
       >
         {label}
-        {required && <span className="text-amber">*</span>}
+        {required && <span className="text-amber-deep">*</span>}
       </label>
       {children}
-      <AnimatePresence>
-        {error && (
-          <motion.span
-            id={`${htmlFor}-error`}
-            role="alert"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="mt-1.5 font-mono text-xs text-amber-deep"
-          >
-            {error}
-          </motion.span>
-        )}
-      </AnimatePresence>
+      {error && (
+        <span
+          id={`${htmlFor}-error`}
+          role="alert"
+          className="mt-1.5 font-mono text-xs text-amber-deep"
+        >
+          {error}
+        </span>
+      )}
     </div>
   );
 }

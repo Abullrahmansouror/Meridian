@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Start a project with Meridian Build Group. Send a project brief or reach our Denver, Salt Lake City, or Phoenix offices directly.",
+  alternates: { canonical: "/contact" },
 };
 
 const nextSteps = [
@@ -52,7 +53,7 @@ export default function ContactPage() {
                     <span className="data-label text-concrete">Phone</span>
                     <a
                       href={contact.phoneHref}
-                      className="mt-1 block font-display text-2xl font-bold text-ink hover:text-amber"
+                      className="mt-1 block font-display text-2xl font-bold text-ink hover:text-amber-deep"
                     >
                       {contact.phone}
                     </a>
@@ -61,7 +62,7 @@ export default function ContactPage() {
                     <span className="data-label text-concrete">Email</span>
                     <a
                       href={contact.emailHref}
-                      className="mt-1 block font-mono text-base text-ink hover:text-amber"
+                      className="mt-1 block font-mono text-base text-ink hover:text-amber-deep"
                     >
                       {contact.email}
                     </a>
@@ -92,7 +93,7 @@ export default function ContactPage() {
                             <div key={line}>{line}</div>
                           ))}
                         </address>
-                        <span className="mt-1 block font-mono text-xs text-amber">
+                        <span className="mt-1 block font-mono text-xs text-amber-deep">
                           {o.coordinates}
                         </span>
                       </li>
@@ -122,7 +123,7 @@ export default function ContactPage() {
             {nextSteps.map((s, i) => (
               <Reveal key={s.index} delay={i * 0.08}>
                 <div className="h-full border-t border-amber bg-mist pt-6 sm:pr-8">
-                  <span className="font-mono text-sm text-amber">{s.index}</span>
+                  <span className="font-mono text-sm text-amber-deep">{s.index}</span>
                   <h3 className="mt-4 text-xl font-bold text-ink">{s.title}</h3>
                   <p className="mt-3 pb-2 text-base leading-relaxed text-graphite">
                     {s.body}

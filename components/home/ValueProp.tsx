@@ -44,7 +44,7 @@ export function ValueProp() {
               {pillars.map((p, i) => (
                 <Reveal key={p.index} delay={i * 0.08}>
                   <div className="flex gap-6 border-t border-line py-8 first:pt-0">
-                    <span className="data-label pt-1.5 text-amber">{p.index}</span>
+                    <span className="data-label pt-1.5 text-amber-deep">{p.index}</span>
                     <div>
                       <h3 className="text-2xl font-bold">{p.title}</h3>
                       <p className="mt-3 text-base leading-relaxed text-graphite">

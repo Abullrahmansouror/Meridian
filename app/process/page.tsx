@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Process",
   description:
     "How Meridian delivers: six phases from pre-construction estimating through commissioning and a one-year warranty walk, carried by one accountable team.",
+  alternates: { canonical: "/process" },
 };
 
 export default function ProcessPage() {
@@ -38,7 +39,7 @@ export default function ProcessPage() {
                   {/* Index + duration */}
                   <div className="lg:col-span-3">
                     <div className="flex items-center gap-4">
-                      <span className="font-display text-6xl font-black leading-none text-amber lg:text-7xl">
+                      <span className="font-display text-6xl font-black leading-none text-amber-deep lg:text-7xl">
                         {phase.index}
                       </span>
                       <span className="h-12 w-px bg-line-strong" />

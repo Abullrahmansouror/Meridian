@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { img } from "@/lib/utils";
-import { company } from "@/lib/data/company";
+import { company, yearsInBusiness } from "@/lib/data/company";
 import { values, milestones, leadership } from "@/lib/data/team";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/ui/PageHero";
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "Meridian Build Group has delivered commercial, civil, and industrial construction across the Mountain West since 1998 — self-performing the critical path and holding the line on every project.",
+  alternates: { canonical: "/about" },
 };
 
 export default function AboutPage() {
@@ -22,7 +23,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About Meridian"
         index="—"
-        title="Twenty-seven years of building to the line."
+        title={`${yearsInBusiness} years of building to the line.`}
         lead="We started with one crew and a flatbed. Today we deliver some of the most complex work in the Mountain West — with the same belief that the way you build is the work."
         imageId="1541888946425-d81bb19240f5"
         stats={[
@@ -88,7 +89,7 @@ export default function AboutPage() {
             {values.map((v, i) => (
               <Reveal key={v.index} delay={(i % 2) * 0.08}>
                 <div className="h-full border-t border-line bg-mist pt-7 sm:pr-10">
-                  <span className="font-mono text-sm text-amber">{v.index}</span>
+                  <span className="font-mono text-sm text-amber-deep">{v.index}</span>
                   <h3 className="mt-4 text-2xl font-bold">{v.title}</h3>
                   <p className="mt-3 pb-2 text-base leading-relaxed text-graphite">
                     {v.body}
@@ -167,7 +168,7 @@ export default function AboutPage() {
                     </span>
                   </div>
                   <h3 className="mt-5 text-xl font-bold">{person.name}</h3>
-                  <p className="mt-1 data-label text-amber">{person.role}</p>
+                  <p className="mt-1 data-label text-amber-deep">{person.role}</p>
                   <p className="mt-3 text-sm leading-relaxed text-graphite">
                     {person.bio}
                   </p>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useInView, useReducedMotion } from "framer-motion";
 
 type Props = {
   value: number;
@@ -21,15 +20,35 @@ export function StatCounter({
   duration = 1500,
 }: Props) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.6 });
-  const prefersReduced = useReducedMotion();
+  const [inView, setInView] = useState(false);
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
-    if (!inView) return;
-    if (prefersReduced) {
-      setDisplay(value);
+    const element = ref.current;
+    if (!element || !("IntersectionObserver" in window)) {
+      setInView(true);
       return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.6 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!inView) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const frame = requestAnimationFrame(() => setDisplay(value));
+      return () => cancelAnimationFrame(frame);
     }
     let raf = 0;
     const start = performance.now();
@@ -42,7 +61,7 @@ export function StatCounter({
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, value, duration, prefersReduced]);
+  }, [inView, value, duration]);
 
   const formatted = display.toLocaleString("en-US", {
     minimumFractionDigits: decimals,

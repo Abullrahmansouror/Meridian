@@ -13,13 +13,13 @@ const sizes: Record<Size, string> = {
 };
 
 const variants: Record<Variant, string> = {
-  primary: "bg-amber text-paper hover:bg-amber-deep",
+  primary: "bg-amber text-ink hover:bg-amber-deep hover:text-paper",
   solid: "bg-ink text-paper hover:bg-ink-soft",
   outline:
     "border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-paper",
   outlineLight:
     "border border-mist/35 text-paper hover:bg-paper hover:text-ink hover:border-paper",
-  ghost: "px-0 text-ink hover:text-amber",
+  ghost: "px-0 text-ink hover:text-amber-deep",
 };
 
 export function buttonStyles(variant: Variant = "primary", size: Size = "md") {
@@ -48,6 +48,7 @@ type LinkProps = {
   arrow?: boolean;
   className?: string;
   children: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 };
 
 export function ButtonLink({
@@ -57,9 +58,14 @@ export function ButtonLink({
   arrow = true,
   className,
   children,
+  onClick,
 }: LinkProps) {
   return (
-    <Link href={href} className={cn(buttonStyles(variant, size), className)}>
+    <Link
+      href={href}
+      className={cn(buttonStyles(variant, size), className)}
+      onClick={onClick}
+    >
       {children}
       {arrow && <Arrow />}
     </Link>

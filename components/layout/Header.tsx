@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const closeMenu = useCallback(() => setOpen(false), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -22,9 +23,19 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    const background = document.querySelectorAll<HTMLElement>("main, footer");
     document.body.style.overflow = open ? "hidden" : "";
+    background.forEach((element) => {
+      element.inert = open;
+      if (open) element.setAttribute("aria-hidden", "true");
+      else element.removeAttribute("aria-hidden");
+    });
     return () => {
       document.body.style.overflow = "";
+      background.forEach((element) => {
+        element.inert = false;
+        element.removeAttribute("aria-hidden");
+      });
     };
   }, [open]);
 
@@ -55,6 +66,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={active ? "page" : undefined}
                 className={cn(
                   "data-label relative py-1 transition-colors",
                   tone === "light"
@@ -95,6 +107,7 @@ export function Header() {
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
+            aria-controls="mobile-navigation"
             onClick={() => setOpen((v) => !v)}
             className="relative z-50 grid h-10 w-10 place-items-center lg:hidden"
           >
@@ -120,7 +133,7 @@ export function Header() {
         </div>
       </header>
 
-      <MobileNav open={open} onClose={() => setOpen(false)} />
+      <MobileNav open={open} onClose={closeMenu} />
     </>
   );
 }

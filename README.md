@@ -15,3 +15,14 @@ The goal of this project was to create a production-ready construction company w
 
 ## Live Website
 https://meridian-construction.vercel.app
+
+## Environment Configuration
+
+Copy `.env.example` to `.env.local` for local development. Set
+`NEXT_PUBLIC_SITE_URL` to the client-owned production origin so canonical URLs,
+Open Graph metadata, `robots.txt`, and `sitemap.xml` agree.
+
+The project brief form sends through Resend and requires `RESEND_API_KEY`,
+`CONTACT_FROM_EMAIL`, and `CONTACT_TO_EMAIL`. Verify the sender domain in Resend
+before deployment. Without these values, the form shows an honest delivery error
+and directs visitors to the published contact email.

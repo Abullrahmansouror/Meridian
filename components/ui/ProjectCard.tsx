@@ -59,7 +59,7 @@ export function ProjectCard({
           {project.location} · {project.year}
         </p>
 
-        <div className="grid grid-cols-1 overflow-hidden transition-all duration-500 ease-out [grid-template-rows:0fr] group-hover:[grid-template-rows:1fr]">
+        <div className="grid grid-cols-1 overflow-hidden transition-all duration-500 ease-out [grid-template-rows:0fr] group-hover:[grid-template-rows:1fr] group-focus-visible:[grid-template-rows:1fr] [@media(hover:none)]:[grid-template-rows:1fr]">
           <div className="min-h-0">
             <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t border-paper/15 pt-4">
               <Spec label="Value" value={project.value} />

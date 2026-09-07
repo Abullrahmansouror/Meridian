@@ -51,15 +51,24 @@ export function BeforeAfterSlider({
       e.preventDefault();
       setPos((p) => Math.min(100, p + 3));
     }
+    if (e.key === "Home") {
+      e.preventDefault();
+      setPos(0);
+    }
+    if (e.key === "End") {
+      e.preventDefault();
+      setPos(100);
+    }
   };
 
   return (
     <div
       ref={containerRef}
-      className="relative aspect-[16/10] w-full touch-none select-none overflow-hidden bg-ink"
+      className="relative aspect-[16/10] w-full cursor-ew-resize touch-none select-none overflow-hidden bg-ink"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
       onPointerLeave={onPointerUp}
     >
       {/* After (base layer) */}
@@ -103,6 +112,7 @@ export function BeforeAfterSlider({
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={Math.round(pos)}
+          aria-valuetext={`${Math.round(pos)}% ${beforeLabel} visible`}
           onKeyDown={onKeyDown}
           className="absolute top-1/2 left-1/2 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center bg-amber text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper"
         >

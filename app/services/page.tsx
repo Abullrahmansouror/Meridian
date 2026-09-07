@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: "Services",
   description:
     "Commercial, civil and infrastructure, industrial and energy, and design-build pre-construction — four disciplines delivered to one standard by Meridian Build Group.",
+  alternates: { canonical: "/services" },
 };
 
 export default function ServicesPage() {

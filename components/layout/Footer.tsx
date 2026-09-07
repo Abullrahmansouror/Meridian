@@ -20,13 +20,13 @@ export function Footer() {
             </p>
             <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-4">
               <div>
-                <dt className="data-label text-mist/40">License</dt>
+                <dt className="data-label text-mist/60">License</dt>
                 <dd className="mt-1 font-mono text-sm text-paper">
                   {company.license}
                 </dd>
               </div>
               <div>
-                <dt className="data-label text-mist/40">EMR Rating</dt>
+                <dt className="data-label text-mist/60">EMR Rating</dt>
                 <dd className="mt-1 font-mono text-sm text-paper">
                   {company.emr}
                 </dd>
@@ -87,7 +87,7 @@ export function Footer() {
                   {contact.email}
                 </a>
               </li>
-              <li className="data-label text-mist/45">{contact.hours}</li>
+              <li className="data-label text-mist/60">{contact.hours}</li>
             </ul>
           </div>
         </div>
@@ -100,7 +100,7 @@ export function Footer() {
                 <span className="font-display text-lg font-bold text-paper">
                   {o.city}
                 </span>
-                <span className="data-label text-mist/40">{o.role}</span>
+                <span className="data-label text-mist/60">{o.role}</span>
               </div>
               <address className="mt-2 not-italic text-sm leading-relaxed text-mist/65">
                 {o.address.map((line) => (
@@ -116,7 +116,7 @@ export function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-12 flex flex-col gap-6 border-t border-mist/12 pt-8 md:flex-row md:items-center md:justify-between">
-          <p className="data-label text-mist/40">
+          <p className="data-label text-mist/60">
             © {year} {company.name}. Built to the line.
           </p>
           <ul className="flex flex-wrap gap-x-5 gap-y-2">

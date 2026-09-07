@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Careers",
   description:
     "Build a career at Meridian Build Group. Open roles in operations, field, pre-construction, and safety across Denver, Salt Lake City, and Phoenix — with employee ownership and real advancement.",
+  alternates: { canonical: "/careers" },
 };
 
 export default function CareersPage() {
@@ -23,7 +24,7 @@ export default function CareersPage() {
         lead="The people who came up through Meridian run Meridian. If you do the work well, there is a long road ahead of you here — and a stake in what we build together."
         imageId="1541888946425-d81bb19240f5"
         stats={[
-          { value: "8", label: "Open roles" },
+          { value: String(jobs.length), label: "Open roles" },
           { value: "0.51", label: "EMR" },
           { value: "Part", label: "Employee-owned" },
           { value: "3", label: "Regions" },
@@ -77,7 +78,7 @@ export default function CareersPage() {
             {benefits.map((b, i) => (
               <Reveal key={b.title} delay={(i % 3) * 0.06}>
                 <div className="h-full border-t border-line bg-mist pt-6 sm:pr-8">
-                  <span className="font-mono text-sm text-amber">
+                  <span className="font-mono text-sm text-amber-deep">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3 className="mt-4 text-xl font-bold">{b.title}</h3>
@@ -130,7 +131,7 @@ export default function CareersPage() {
                     <span className="data-label text-graphite sm:col-span-2">
                       {job.type}
                     </span>
-                    <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-amber sm:col-span-1 sm:justify-end">
+                    <span className="inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-amber-deep sm:col-span-1 sm:justify-end">
                       Apply
                       <svg width="14" height="9" viewBox="0 0 16 9" fill="none" aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
                         <path d="M0 4.5h14M10.5 1 14 4.5 10.5 8" stroke="currentColor" strokeWidth="1.4" />
@@ -147,7 +148,7 @@ export default function CareersPage() {
               Don&apos;t see your role?{" "}
               <a
                 href={`mailto:${contact.careersEmail}`}
-                className="font-medium text-ink underline decoration-amber decoration-2 underline-offset-4 hover:text-amber"
+                className="font-medium text-ink underline decoration-amber decoration-2 underline-offset-4 hover:text-amber-deep"
               >
                 Send us your resume
               </a>{" "}
